@@ -3,41 +3,31 @@ real scalar mkblog::mb_fopen ( string scalar file, string scalar mode, | real sc
 	real scalar fh, errcode
 	string scalar errmsg
 
-    if (mode == "w" & settings.other.replace == "replace") {
+    if (mode == "w" & settings.replace == "replace") {
         errcode = _unlink(file)
         if (errcode != 0){
+			errmsg = "{p}{err}an error occured when replacing file " + file + "{p_end}"
+            printf(errmsg)
             if (args() == 3) {
-                errmsg = "{p}{err}an error occured when replacing file " + file + "{p_end}"
-                printf(errmsg)
                 where_err(sourcerow)
-                exit(abs(errcode))
             }
-            else {
-                errmsg = "{p}{err}an error occured when replacing file " + file + "{p_end}"
-                printf(errmsg)
-                exit(error(abs(errcode)))
-            }
+			exit(abs(errcode))
         }
     }
 	fh = _fopen(file, mode)
     if (fh < 0 ) {
-        if (args() == 3) {
-            errmsg = "{p}{err}An error occured when opening file " + file +"{p_end}"
-            printf(errmsg)
+        errmsg = "{p}{err}An error occured when opening file " + file +"{p_end}"
+        printf(errmsg)
+		if (args() == 3) {
             where_err(sourcerow)
-            exit(abs(fh))
         }
-        else {
-            errmsg = "{p}{err}An error occured when opening file " + file +"{p_end}"
-            printf(errmsg)
-            exit(error(abs(fh)))
-        }
+        exit(abs(fh))
     }
 	files.put(fh, "open")
 	return(fh)
 }
 
-void smclpres::sp_fclose ( real scalar fh,| real scalar sourcerow) {
+void mkblog::mb_fclose ( real scalar fh,| real scalar sourcerow) {
     real scalar errcode
     string scalar errmsg
 
@@ -56,7 +46,7 @@ void smclpres::sp_fclose ( real scalar fh,| real scalar sourcerow) {
 	files.put( fh, "closed")
 }
 
-void smclpres::sp_fcloseall () {
+void mkblog::mb_fcloseall () {
 	transmorphic scalar notfound
 	real         scalar fh
     string       scalar val
@@ -70,4 +60,47 @@ void smclpres::sp_fcloseall () {
         }
     }
 }
+
+void mkblog::parsedirs()
+{
+    string scalar usingpath, dir, replace
+    string scalar file, stub, odir, path, sdir, source, ddir
+
+    usingpath = st_local("using")
+    dir = st_local("dir")
+    replace = st_local("replace")
+    pathsplit(usingpath, path="", file="")
+    stub = pathrmsuffix(file)
+    odir = pwd()
+    if(path != "") cd(path)
+    sdir = pwd()
+    source = pathjoin(sdir,file)
+    if (dir!= "") {
+        cd(odir)
+        cd(dir)
+        ddir = pwd()
+    }
+    else {
+        ddir = odir
+    }
+    cd(odir)
+	settings.stub      = stub
+	settings.sourcedir = sdir
+	settings.source    = source
+	settings.olddir    = odir
+	settings.destdir   = ddir
+	settings.replace   = replace
+}
+
+void smclpres::cd(string scalar path) {
+    real scalar rc
+    string scalar errmsg
+    rc = _chdir(path)
+    if (rc != 0) {
+        errmsg = "{p}{err}directory " + path + " not found{p_end}"
+        printf(errmsg)
+        exit(rc)
+    }
+}
+
 end
