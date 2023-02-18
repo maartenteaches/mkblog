@@ -44,10 +44,16 @@ void mkblog::write_pagetitle(string scalar title)
 	fput(fh_main, `"	<div class="w3-col m10 ">"') // begins column
 }
 
-struct mbstate scalar mkblog::write_sectitle(string scalar title)
+void scalar mkblog::write_sectitle(string scalar title)
 {
 	string scalar secid towrite
 	
+	if(state.exopen == 1) {
+		errmsg = "{p}{err}Starting a new section and an example is still open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)
+	}
 	if(state.secopen==1) {
 		fput(fh_main, "</div>")
 	}
@@ -65,11 +71,41 @@ struct mbstate scalar mkblog::write_sectitle(string scalar title)
 	towrite = `"<H4>&#x25BC; "' + title + `"</H4>"' 
     fput(fh_main, towrite)    
     fput(fh_main, "</button>")
-	towrite = `"div id=""' + secid + `"" class="w3-hide">"'
+	towrite = `"<div id=""' + secid + `"" class="w3-hide">"'
 	fput(fh_main, towrite)
        
 	state.secopen = 1
-	return(state)
+}
+
+void mkblog::write_arttitle(string scalar title, real scalar sourcerow)
+{
+	string scalar artid towrite
+	
+	if(state.exopen == 1) {
+		errmsg = "{p}{err}Starting a new article and an example is still open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)
+	}
+	
+	if(state.artopen==1){
+		fput(fh_main, "</div>")
+		state.artopen = 0
+	}
+	
+	state.art = state.art + 1
+	artid = "art"+strofreal(state.art)
+	
+	towrite = `"<button onclick="myFunction('"' + artid + `"')" "'
+	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border-0">"'
+	fput(fh_main, towrite)
+	towrite = `"<H5>&#x25BC; "' + title + `"</H5>"' 
+    fput(fh_main, towrite)    
+    fput(fh_main, "</button>")
+	towrite = `"<div id=""' + secid + `"" class="w3-hide">"'
+	fput(fh_main, towrite)
+       
+	state.artopen = 1
 }
 
 void mkblog::write_footer()
