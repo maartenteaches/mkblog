@@ -15,6 +15,7 @@ class mkblog {
 	void                              new()
 	
 	//_read.mata
+	void                              where_err()
 	void                              read()
 	void                              parsedirs()
 	void                              cd()
@@ -35,10 +36,10 @@ class mkblog {
 struct mbsettings {
 	string                  scalar    replace
 	string                  scalar    stub
-	string                  scalar    sdir
+	string                  scalar    sourcedir
 	string                  scalar    source 
-	string                  scalar    odir
-	string                  scalar    ddir
+	string                  scalar    olddir
+	string                  scalar    destdir
 	string                  scalar    pagetitle
 }
 

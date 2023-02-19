@@ -44,9 +44,9 @@ void mkblog::write_pagetitle(string scalar title)
 	fput(fh_main, `"	<div class="w3-col m10 ">"') // begins column
 }
 
-void scalar mkblog::beginsec(string scalar title, sourcerow)
+void mkblog::beginsec(string scalar title, sourcerow)
 {
-	string scalar secid towrite
+	string scalar secid, towrite, errmsg
 	
 	if(state.exopen == 1) {
 		errmsg = "{p}{err}Starting a new section and an example is still open{p_end}"
@@ -81,7 +81,7 @@ void scalar mkblog::beginsec(string scalar title, sourcerow)
        
 	state.secopen = 1
 }
-void mkblog::end_sec(real scalar sourcerow)
+void mkblog::endsec(real scalar sourcerow)
 {
 	string scalar errmsg
 	if (state.secopen == 0) {
@@ -96,7 +96,7 @@ void mkblog::end_sec(real scalar sourcerow)
 
 void mkblog::beginart(string scalar title, real scalar sourcerow)
 {
-	string scalar artid towrite
+	string scalar artid, towrite, errmsg
 	
 	if(state.exopen == 1) {
 		errmsg = "{p}{err}Starting a new article and an example is still open{p_end}"
@@ -121,13 +121,14 @@ void mkblog::beginart(string scalar title, real scalar sourcerow)
 	towrite = `"<H5>&#x25BC; "' + title + `"</H5>"' 
     fput(fh_main, towrite)    
     fput(fh_main, "</button>")
-	towrite = `"<div id=""' + secid + `"" class="w3-hide">"'
+	towrite = `"<div id=""' + artid + `"" class="w3-hide">"'
 	fput(fh_main, towrite)
        
 	state.artopen = 1
 }
 void mkblog::endart(real scalar sourcerow)
 {
+	string scalar errmsg
 	if (state.artopen == 0) {
 		errmsg = "{p}{err}Tried to close an article, but none was open{p_end}"
 		printf(errmsg)

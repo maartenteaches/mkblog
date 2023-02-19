@@ -1,4 +1,11 @@
 mata:
+void smclpres::where_err(real scalar rownr)
+{
+	string scalar errmsg
+	errmsg = "{p}{err}This error occured on line {res}" + source[rownr,3] + " {err}in {res}" + source[rownr,2] + "{p_end}"
+	printf(errmsg)
+}
+
 real scalar mkblog::mb_fopen ( string scalar file, string scalar mode, | real scalar sourcerow) {
 	real scalar fh, errcode
 	string scalar errmsg
