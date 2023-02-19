@@ -44,7 +44,7 @@ void mkblog::write_pagetitle(string scalar title)
 	fput(fh_main, `"	<div class="w3-col m10 ">"') // begins column
 }
 
-void scalar mkblog::beginsec(string scalar title)
+void scalar mkblog::beginsec(string scalar title, sourcerow)
 {
 	string scalar secid towrite
 	
@@ -81,13 +81,20 @@ void scalar mkblog::beginsec(string scalar title)
        
 	state.secopen = 1
 }
-void mkblog::end_sec()
+void mkblog::end_sec(real scalar sourcerow)
 {
+	string scalar errmsg
+	if (state.secopen == 0) {
+		errmsg = "{p}{err}Tried to close a section, but none was open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)
+	}
 	fput(fh_main, "</div>")
 	state.secopen = 0
 }
 
-void mkblog::write_arttitle(string scalar title, real scalar sourcerow)
+void mkblog::beginart(string scalar title, real scalar sourcerow)
 {
 	string scalar artid towrite
 	
@@ -99,8 +106,10 @@ void mkblog::write_arttitle(string scalar title, real scalar sourcerow)
 	}
 	
 	if(state.artopen==1){
-		fput(fh_main, "</div>")
-		state.artopen = 0
+		errmsg = "{p}{err}Starting a new article and an article is still open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)
 	}
 	
 	state.art = state.art + 1
@@ -117,6 +126,18 @@ void mkblog::write_arttitle(string scalar title, real scalar sourcerow)
        
 	state.artopen = 1
 }
+void mkblog::endart(real scalar sourcerow)
+{
+	if (state.artopen == 0) {
+		errmsg = "{p}{err}Tried to close an article, but none was open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)
+	}
+	fput(fh_main, "</div>")
+	state.artopen = 0
+}
+
 
 void mkblog::write_footer()
 {
@@ -127,8 +148,16 @@ void mkblog::write_footer()
 		printf(errmsg)
 		exit(198)
 	}
-	if(state.artopen == 1) fput(fh_main, "</div>")
-	if(state.secopen == 1) fput(fh_main, "</div>")
+	if(state.artopen == 1) {
+		errmsg = "{p}{err}Reached the end of the file and an article is still open{p_end}"
+		printf(errmsg)
+		exit(198)
+	}
+	if(state.secopen == 1) {
+		errmsg = "{p}{err}Reached the end of the file and a section is still open{p_end}"
+		printf(errmsg)
+		exit(198)
+	}
 	fput(fh_main, "</div>") //ends column
 	fput(fh_main, "</div>") //ends row
 	
