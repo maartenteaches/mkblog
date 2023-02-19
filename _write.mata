@@ -44,7 +44,7 @@ void mkblog::write_pagetitle(string scalar title)
 	fput(fh_main, `"	<div class="w3-col m10 ">"') // begins column
 }
 
-void scalar mkblog::write_sectitle(string scalar title)
+void scalar mkblog::beginsec(string scalar title)
 {
 	string scalar secid towrite
 	
@@ -55,11 +55,16 @@ void scalar mkblog::write_sectitle(string scalar title)
 		exit(198)
 	}
 	if(state.secopen==1) {
-		fput(fh_main, "</div>")
+		errmsg = "{p}{err}Starting a new section and an section is still open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)
 	}
 	if(state.artopen==1){
-		fput(fh_main, "</div>")
-		state.artopen = 0
+		errmsg = "{p}{err}Starting a new section and an article is still open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)
 	}
 	
 	state.sec = state.sec + 1
@@ -75,6 +80,11 @@ void scalar mkblog::write_sectitle(string scalar title)
 	fput(fh_main, towrite)
        
 	state.secopen = 1
+}
+void mkblog::end_sec()
+{
+	fput(fh_main, "</div>")
+	state.secopen = 0
 }
 
 void mkblog::write_arttitle(string scalar title, real scalar sourcerow)

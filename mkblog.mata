@@ -26,8 +26,10 @@ class mkblog {
 	void                              write_header()
 	void                              write_footer()
 	void                              write_pagetitle()
-	void                              write_sectitle
-	void                              write_arttitle()
+	void                              beginsec()
+	void                              endsec()
+	void                              beginart()
+	void                              endart()
 }
 
 struct mbsettings {
