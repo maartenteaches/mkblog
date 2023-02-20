@@ -157,7 +157,7 @@ real scalar mkblog::_read_file(string scalar filename, real scalar lnr, real row
         else if (part == "//set") {
             source = source[|1,1 \ rows(source)-1,3|]
             source_version = source_version[|1,1 \ rows(source_version)-1,3|]
-            parse_set(tokenrest(t))
+            parse_set(tokenrest(t), filename, i)
         }
         else {
             source[lnr,1] = line
@@ -294,5 +294,37 @@ real scalar mkblog::blog_gt_val(real scalar sourcerow, real rowvector tocheck)
 		}
 	}
 	return(res)
+}
+
+void mkblog::parse_set(string scalar toparse , string scalar filename, real scalar lnr)
+{
+    string scalar where , errmsg
+    string rowvector parts
+    real scalar tabs
+
+    where = "{p}{err}This error occured on line " + strofreal(lnr) + " of " + filename + "{p_end}"
+    parts = tokens(toparse)
+    if (parts[1] == "tab") {
+        tabs = strtoreal(parts[2])
+        if (tabs == .) {
+            errmsg = "{p}{err}the argument after tab must be a number{p_end}"
+            printf(errmsg)
+            printf(where)
+            exit(198)
+        }
+        if (tabs <=0 | floor(tabs)!=tabs) {
+            errmsg = "{p}{err}the argument after tab must be a positive integer{p_end}"
+            printf(errmsg)
+            printf(where)
+            exit(198)            
+        }
+        settings.tab = tabs
+    }
+    else {
+        errmsg = "{p}{err}set only allows option tab{p_end}"
+        printf(errmsg)
+        printf(where)
+        exit(198)
+    }
 }
 end

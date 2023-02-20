@@ -29,6 +29,7 @@ class mkblog {
     real                    scalar    blog_leq_val()
     real                    scalar    blog_gt_val()
     real                    scalar    blog_geq_val()
+    void                              parse_set()
     
 	
 	//_write.mata
