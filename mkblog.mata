@@ -41,6 +41,8 @@ struct mbsettings {
 	string                  scalar    olddir
 	string                  scalar    destdir
 	string                  scalar    pagetitle
+    string                  scalar    tempfile
+    string                  scalar    tempname
 }
 
 struct mbstate {

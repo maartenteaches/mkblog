@@ -97,6 +97,8 @@ void mkblog::parsedirs()
 	settings.olddir    = odir
 	settings.destdir   = ddir
 	settings.replace   = replace
+    settings.tempfile  = st_local("temp")
+    settings.tempname  = st_local("name")
 }
 
 void smclpres::cd(string scalar path) {
