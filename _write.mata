@@ -23,6 +23,11 @@ void mkblog::write_header()
 	fput(fh_main, `"    overflow: auto;"')
 	fput(fh_main, `"    margin: 0px auto 0px auto;"')
 	fput(fh_main, `"}"')
+    fput(fh_main, `".dolink{"')
+    fput(fh_main, `"    text-align:right; "')
+    fput(fh_main, `"    padding:0px; "')
+    fput(fh_main, `"    margin:0px;"')
+    fput(fh_main, `"}"')
 	fput(fh_main, `"   "')     
 	fput(fh_main, `"</style>"')
 	fput(fh_main, `"</head>"')
@@ -113,6 +118,7 @@ void mkblog::beginart(string scalar title, real scalar sourcerow)
 	}
 	
 	state.art = state.art + 1
+    state.ex  = 0
 	artid = "art"+strofreal(state.art)
 	
 	towrite = `"<button onclick="myFunction('"' + artid + `"')" "'
@@ -189,6 +195,9 @@ void mkblog::truncfile(string scalar orig, string scalar dest,
     
     EOF = J(0,0,"")
     fh_in = mb_fopen(orig, "r")
+    if (settings.replace == "replace") {
+        unlink(dest)
+    }
     fh_out = mb_fopen(dest, "w")    
     i = 0
     while ((line=fget(fh_in)) != EOF) {
@@ -197,6 +206,8 @@ void mkblog::truncfile(string scalar orig, string scalar dest,
             fput(fh_out, line)
         }
     }
+    mb_fclose(fh_in)
+    mb_fclose(fh_out)
 }
 
 void mkblog::copyfile(string scalar orig)
@@ -210,5 +221,123 @@ void mkblog::copyfile(string scalar orig)
     while ((line=fget(fh_in)) != EOF) {
         fput(fh_main, line)
     }
+    mb_fclose(fh_in)
+}
+
+void mkblog::open_ex(real scalar sourcerow)
+{
+    string scalar errmsg
+    
+    if (state.exopen==1){
+        errmsg = "{p}{err}Tried to open an example when one was already open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+    }
+    if (state.artopen==0){
+        errmsg = "{p}{err}Tried to open an example when no article was open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+    }
+    state.ex = state.ex + 1
+    state.exopen = 1
+    state.exname = "art" + strofreal(state.art) + "ex" + strofreal(state.ex) + ".do"
+    state.exline = 1
+    
+    state.fh_ex = mb_fopen(settings.tempdo, "w")
+    fput(state.fh_ex, "log using "+ settings.templog  + ", smcl name("+ settings.tempname +") nomsg replace")
+}
+void mkblog::close_ex(real scalar sourcerow)
+{
+    string scalar cmd, errmsg
+    
+    if (state.exopen==0){
+        errmsg = "{p}{err}Tried to close an example when none was open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+    }
+    if (state.artopen==0){
+        errmsg = "{p}{err}Tried to close an example when no article was open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+    }
+    
+    fput(state.fh_ex, "log close " + settings.tempname)
+    mb_fclose(state.fh_ex)
+    
+    cmd = "do " +  settings.tempdo
+    stata(cmd)
+    
+    truncfile(settings.tempdo, state.exname, 2, state.exline)
+    unlink(settings.tempdo)
+    
+    log2html()
+}
+
+real scalar mkblog::countlines(string scalar filename) {
+    string matrix EOF
+    real scalar fh, i
+    
+    fh = mb_fopen(filename, "r")
+    EOF = J(0,0,"")
+    
+    i=0
+    while (fget(fh)!=EOF) {
+       i++ 
+    }
+    mb_fclose(fh)
+    return(i)
+}
+
+
+void mkblog::log2html()
+{
+    string scalar cmd, EOF, line
+    real scalar fh_clog, fh_rlog, nlines, i, c, cprev
+
+    EOF = J(0,0, "")
+    
+    cmd = "log html " + settings.templog + " " + settings.temphtml + "replace yebf whbf "
+    stata(cmd, 1)
+    unlink(settings.templog)
+    
+    nlines = countlines(settings.temphtml)
+    
+    fh_clog = mb_fopen(settings.templog, "w")
+    fput(fh_clog, `"<div class="w3-code notranslate w3-border-blue-gray"><code>"')
+    
+    fh_rlog = mb_fopen(settings.temphtml,"r")
+    i = 0
+    cprev = 0
+    while((line=fget(fh_rlog)) != EOF) {
+        i++
+        if (i==2) continue
+        if (i==nlines-2 & line == "<p>") continue
+        if (i==nlines-1) continue
+        
+        line = subinstr(line, "<p>", "<br><br>")
+		
+        c = strpos(line,"<b>. ")
+		line = subinstr(line, "<b>. ", "<span class=input>. ", 1)
+	
+		// catch continuation lines
+		if (substr(line,1,7) == "<b>&gt;" & cprev == 1) { 
+			line = subinstr(line, "<b>", "<span class=input>", 1)
+            c = 1 
+		} 	
+		else { 
+			line = subinstr(line, "<b>", "<span class=result>")
+		}
+		
+		line = subinstr(line, "</b>", "</span>")
+
+		fput(fh_clog, line)
+		cprev = c 
+    }
+    
+    fput(fh_clog, "</code> </div>")
+    fput(fh_clog, `"<a href=""' + state.exname + `"" class = "w3-button w3-blue-gray w3-right">do-file</a>"')
+    mb_fclose(fh_clog)
+    mb_fclose(fh_rlog)
+    copyfile(settings.templog)
 }
 end

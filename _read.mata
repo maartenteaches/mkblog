@@ -76,6 +76,7 @@ void mkblog::parsedirs()
     usingpath = st_local("using")
     dir = st_local("dir")
     replace = st_local("replace")
+    
     pathsplit(usingpath, path="", file="")
     stub = pathrmsuffix(file)
     odir = pwd()
@@ -91,6 +92,7 @@ void mkblog::parsedirs()
         ddir = odir
     }
     cd(odir)
+    
 	settings.stub      = stub
 	settings.sourcedir = sdir
 	settings.source    = source

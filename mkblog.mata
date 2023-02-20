@@ -33,6 +33,10 @@ class mkblog {
 	void                              endart()
     void                              truncfile()
     void                              copyfile()
+    void                              open_ex()
+    void                              close_ex()
+    real                    scalar    countlines()
+    void                              log2html()
 }
 
 struct mbsettings {
@@ -56,6 +60,9 @@ struct mbstate {
 	real                    scalar    sec
 	real                    scalar    art
 	real                    scalar    ex
+    string                  scalar    exname
+    real                    scalar    fh_ex
+    real                    scalar    exline
 }
 
 void mkblog::new()
