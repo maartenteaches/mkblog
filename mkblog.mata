@@ -32,6 +32,7 @@ class mkblog {
 	void                              beginart()
 	void                              endart()
     void                              truncfile()
+    void                              copyfile()
 }
 
 struct mbsettings {
