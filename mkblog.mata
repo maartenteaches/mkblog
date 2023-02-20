@@ -54,7 +54,12 @@ struct mbstate {
 
 void mkblog::new()
 {
-	
+    state.secopen = 0
+    state.artopen = 0
+    state.exopen  = 0
+    state.sec     = 0
+    state.art     = 0
+    state.ex      = 0
 }
 void mkblog::run()
 {
