@@ -1,5 +1,58 @@
 mata:
 
+void mkblog::write_blog()
+{
+    write_header()
+    write_pagetitle()
+    fill_blog()
+    write_footer()
+}
+
+void mkblog::fill_blog()
+{
+    real scalar i
+    string scalar part
+    transmorphic scalar t
+
+    t = tokeninit()
+    
+    for(i=1; i <= rows_source; i++) {
+        tokenset(t, source[i,1])
+        part = tokenget(t)
+        if (part == "//sec") {
+            beginsec(tokenrest(t), i)
+        }
+        else if (part == "//endsec") {
+            endsec(i)
+        }
+        else if (part == "//art") {
+            beginart(tokenrest(t), i)
+        }
+        else if (part == "//endart") {
+            endart(i)
+        }
+        else if (part == "//ex") {
+            open_ex(i)
+        }
+        else if (part == "//endex") {
+            close_ex(i)
+        }
+        else if (part == "/*txt") {
+            opentxt(i)
+        }
+        else if (part == "txt*/") {
+            closetxt(i)
+        }
+        else if (state.exopen == 1) {
+            fput(state.fh_ex, source[i,1])
+            state.exline = state.exline + 1
+        }
+        else {
+            fput(fh_main, source[i,1])
+        }
+    }
+}
+
 void mkblog::write_header()
 {
 	string scalar destfile
@@ -34,13 +87,13 @@ void mkblog::write_header()
 	fput(fh_main, `"<body>"')
 }
 
-void mkblog::write_pagetitle(string scalar title)
+void mkblog::write_pagetitle()
 {
 
 	fput(fh_main, `"<div class="w3-row">"')
 	fput(fh_main, `"	<div class="w3-col m1 w3-container"></div>"')
 	fput(fh_main, `"	<div class="w3-col m10 w3-container w3-blue-gray" >"')
-	fput(fh_main, `"		<h2>"' + title + `"</h2>"')
+	fput(fh_main, `"		<h2>"' + settings.title + `"</h2>"')
 	fput(fh_main, `"	</div>"')
 	fput(fh_main, `"</div>"')
 	fput(fh_main, " ")

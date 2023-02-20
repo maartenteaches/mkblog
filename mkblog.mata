@@ -47,6 +47,8 @@ class mkblog {
     void                              log2html()
     void                              opentxt()
     void                              closetxt()
+    void                              write_blog()
+    void                              fill_blog()
 }
 
 struct mbsettings {
@@ -62,6 +64,7 @@ struct mbsettings {
     string                  scalar    temphtml
     string                  scalar    tempname
     real                    scalar    tab
+    string                  scalar    title
 }
 
 struct mbstate {
@@ -88,12 +91,17 @@ void mkblog::new()
     state.ex      = 0
     
     settings.tab  = 4
+    settings.title = "A blog"
     
     mkblog_version = (0,1,0)
 }
 void mkblog::run()
 {
-	
+    parsedirs()
+    read_file()
+    cd(settings.destdir)
+    write_blog()
+    cd(settings.olddir)
 }
 end
 do _read.mata
