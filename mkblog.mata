@@ -16,12 +16,20 @@ class mkblog {
 	
 	//_read.mata
 	void                              where_err()
-	void                              read()
+	void                              read_file()
+    real                    scalar    _read_file()
+    real                    scalar    countlines()    
 	void                              parsedirs()
 	void                              cd()
 	real                    scalar    mb_fopen()
 	void                              mb_fclose()
 	void                              mb_fcloseall()
+    real                    rowvector parse_version()
+    real                    scalar    blog_lt_val()
+    real                    scalar    blog_leq_val()
+    real                    scalar    blog_gt_val()
+    real                    scalar    blog_geq_val()
+    
 	
 	//_write.mata
 	void                              write_header()
@@ -35,7 +43,6 @@ class mkblog {
     void                              copyfile()
     void                              open_ex()
     void                              close_ex()
-    real                    scalar    countlines()
     void                              log2html()
     void                              opentxt()
     void                              closetxt()
@@ -53,6 +60,7 @@ struct mbsettings {
     string                  scalar    templog
     string                  scalar    temphtml
     string                  scalar    tempname
+    real                    scalar    tab
 }
 
 struct mbstate {
@@ -77,6 +85,10 @@ void mkblog::new()
     state.sec     = 0
     state.art     = 0
     state.ex      = 0
+    
+    settings.tab  = 4
+    
+    mkblog_version = (0,1,0)
 }
 void mkblog::run()
 {

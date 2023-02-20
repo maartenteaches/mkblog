@@ -319,22 +319,6 @@ void mkblog::close_ex(real scalar sourcerow)
     log2html()
 }
 
-real scalar mkblog::countlines(string scalar filename) {
-    string matrix EOF
-    real scalar fh, i
-    
-    fh = mb_fopen(filename, "r")
-    EOF = J(0,0,"")
-    
-    i=0
-    while (fget(fh)!=EOF) {
-       i++ 
-    }
-    mb_fclose(fh)
-    return(i)
-}
-
-
 void mkblog::log2html()
 {
     string scalar cmd, EOF, line
