@@ -37,6 +37,8 @@ class mkblog {
     void                              close_ex()
     real                    scalar    countlines()
     void                              log2html()
+    void                              opentxt()
+    void                              closetxt()
 }
 
 struct mbsettings {
@@ -57,6 +59,7 @@ struct mbstate {
 	real                    scalar    secopen
 	real                    scalar    artopen
 	real                    scalar    exopen
+    real                    scalar    txtopen
 	real                    scalar    sec
 	real                    scalar    art
 	real                    scalar    ex
@@ -70,6 +73,7 @@ void mkblog::new()
     state.secopen = 0
     state.artopen = 0
     state.exopen  = 0
+    state.txtopen = 0
     state.sec     = 0
     state.art     = 0
     state.ex      = 0

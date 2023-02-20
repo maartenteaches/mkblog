@@ -71,6 +71,12 @@ void mkblog::beginsec(string scalar title, sourcerow)
 		where_err(sourcerow)
 		exit(198)
 	}
+    if (state.txtopen == 1) {
+        errmsg = "{p}{err}Starting a new section and a text block is still open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+        exit(198)
+    }
 	
 	state.sec = state.sec + 1
 	secid = "sec"+strofreal(state.sec)
@@ -95,6 +101,24 @@ void mkblog::endsec(real scalar sourcerow)
 		where_err(sourcerow)
 		exit(198)
 	}
+    if (state.txtopen==1) {
+		errmsg = "{p}{err}Tried to close a section, but a text block was open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)        
+    }
+    if (state.exopen==1) {
+		errmsg = "{p}{err}Tried to close a section, but an example was open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)        
+    }
+    if (state.artopen==1) {
+		errmsg = "{p}{err}Tried to close a section, but an article was open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)        
+    }
 	fput(fh_main, "</div>")
 	state.secopen = 0
 }
@@ -109,13 +133,18 @@ void mkblog::beginart(string scalar title, real scalar sourcerow)
 		where_err(sourcerow)
 		exit(198)
 	}
-	
 	if(state.artopen==1){
 		errmsg = "{p}{err}Starting a new article and an article is still open{p_end}"
 		printf(errmsg)
 		where_err(sourcerow)
 		exit(198)
 	}
+    if (state.txtopen == 1) {
+        errmsg = "{p}{err}Starting a new article and a text block is still open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+        exit(198)
+    }
 	
 	state.art = state.art + 1
     state.ex  = 0
@@ -141,6 +170,18 @@ void mkblog::endart(real scalar sourcerow)
 		where_err(sourcerow)
 		exit(198)
 	}
+	if(state.exopen == 1) {
+		errmsg = "{p}{err}Tried to close an article and an example is still open{p_end}"
+		printf(errmsg)
+		where_err(sourcerow)
+		exit(198)
+	}
+    if (state.txtopen == 1) {
+        errmsg = "{p}{err}Tried to close an article and a text block is still open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+        exit(198)
+    }
 	fput(fh_main, "</div>")
 	state.artopen = 0
 }
@@ -165,6 +206,11 @@ void mkblog::write_footer()
 		printf(errmsg)
 		exit(198)
 	}
+    if (state.txtopen == 1) {
+        errmsg = "{p}{err}Reached the end of the file and a text block is still open{p_end}"
+		printf(errmsg)
+		exit(198)
+    }
 	fput(fh_main, "</div>") //ends column
 	fput(fh_main, "</div>") //ends row
 	
@@ -340,4 +386,37 @@ void mkblog::log2html()
     mb_fclose(fh_rlog)
     copyfile(settings.templog)
 }
+
+void mkblog::opentxt(real scalar sourcerow)
+{
+    string scalar errmsg
+    
+    if (state.txtopen == 1){
+        errmsg = "{p}{err}tried to open a text block, but one is already open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+        exit(198)
+    }
+    if (state.exopen  == 1){
+        errmsg = "{p}{err}tried to open a text block, but an example is already open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+        exit(198)        
+        
+    }
+    fput(fh_main, `"<div class="w3-container">"')
+}
+
+void mkblog::closetxt(real scalar sourcerow)
+{
+    string scalar errmsg
+    if (state.txtopen== 0) {
+        errmsg = "{p}{err}Tried to close a text block, but none was open{p_end}"
+        printf(errmsg)
+        where_err(sourcerow)
+        exit(198)
+    }
+    fput(fh_main, "</div>")
+}
+
 end
