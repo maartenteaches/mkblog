@@ -15,7 +15,7 @@ program define mkblog, rclass
 		if `"`olddir'"' != `"`c(pwd)'"' {
 			qui cd `olddir'
 		}
-		mata : `blog'.sp_fcloseall()
+		mata : `blog'.mb_fcloseall()
 		if "`debug'" == "" {
 			mata: mata drop `blog'
 		}

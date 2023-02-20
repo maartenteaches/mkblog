@@ -94,6 +94,10 @@ void mkblog::new()
     settings.title = "A blog"
     
     mkblog_version = (0,1,0)
+	
+	files.reinit("real")
+	source = J(0,3,"")
+	source_version = J(0,3,.)
 }
 void mkblog::run()
 {

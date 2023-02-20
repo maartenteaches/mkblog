@@ -1,5 +1,5 @@
 mata:
-void smclpres::where_err(real scalar rownr)
+void mkblog::where_err(real scalar rownr)
 {
 	string scalar errmsg
 	errmsg = "{p}{err}This error occured on line {res}" + source[rownr,3] + " {err}in {res}" + source[rownr,2] + "{p_end}"
@@ -117,21 +117,20 @@ void mkblog::cd(string scalar path) {
 }
 
 real scalar mkblog::_read_file(string scalar filename, real scalar lnr, real rowvector current_version) {
-    transmorphic scalar t
+	transmorphic scalar t
     string matrix EOF, toadd
     real matrix toadd_v
     real scalar fh, i, newlines
     string scalar line, part, cmd
     real rowvector old_version
-    
+  
     EOF = J(0,0,"")
-    newlines = count_lines(filename)
+    newlines = countlines(filename)
     toadd = J(newlines,3,"")
     source = source \ toadd
     toadd_v = J(newlines,3,.)
     source_version = source_version \toadd_v
-    
-
+  	
     fh = mb_fopen(filename, "r")
     i = 0
     t = tokeninit()
@@ -171,14 +170,14 @@ real scalar mkblog::_read_file(string scalar filename, real scalar lnr, real row
             source_version[lnr++,.] = current_version
         }
     }
-    sp_fclose(fh)
+    mb_fclose(fh)
     return(lnr)
 }
 
 void mkblog::read_file() {
     real scalar i
-
     i = _read_file(settings.source,1, mkblog_version)
+
     rows_source = rows(source)
     // replace tab with white spaces
     source[.,1] = usubinstr(source[.,1], char(9), settings.tab*" ", .)

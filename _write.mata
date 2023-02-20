@@ -370,6 +370,7 @@ void mkblog::close_ex(real scalar sourcerow)
     unlink(settings.tempdo)
     
     log2html()
+	state.exopen = 0
 }
 
 
@@ -444,6 +445,7 @@ void mkblog::opentxt(real scalar sourcerow)
         
     }
     fput(fh_main, `"<div class="w3-container">"')
+	state.txtopen = 1
 }
 
 void mkblog::closetxt(real scalar sourcerow)
@@ -456,6 +458,7 @@ void mkblog::closetxt(real scalar sourcerow)
         exit(198)
     }
     fput(fh_main, "</div>")
+	state.txtopen = 0
 }
 
 end
