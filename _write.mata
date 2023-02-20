@@ -372,6 +372,8 @@ void mkblog::close_ex(real scalar sourcerow)
     log2html()
 }
 
+
+// port of log2html by Kit Baum, Nick Cox, and Bill Rising
 void mkblog::log2html()
 {
     string scalar cmd, EOF, line
