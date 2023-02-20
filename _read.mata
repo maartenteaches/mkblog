@@ -97,7 +97,9 @@ void mkblog::parsedirs()
 	settings.olddir    = odir
 	settings.destdir   = ddir
 	settings.replace   = replace
-    settings.tempfile  = st_local("temp")
+    settings.tempdo    = st_local("do")
+    settings.templog   = st_local("log")
+    settings.temphtml  = st_local("html")
     settings.tempname  = st_local("name")
 }
 

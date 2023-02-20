@@ -180,4 +180,28 @@ void mkblog::write_footer()
 	fput(fh_main, "</html>")
 	mb_fclose(fh_main)
 }
+
+void mkblog::truncfile(string scalar orig, string scalar dest, 
+                       real scalar lb, real scalar ub, | real scalar sourcerow)
+{
+    string scalar EOF, line
+    real scalar fh_in, fh_out, i
+    
+    EOF = J(0,0,"")
+    if (args() == 4) {
+        fh_in = mb_fopen(orig, "r")
+        fh_out = mb_fopen(dest, "w")    
+    }
+    else {
+        fh_in = mb_fopen(orig, "r", sourcerow)
+        fh_out = mb_fopen(orig, "w", sourcerow)
+    }
+    i = 0
+    while ((line=fget(fh_in)) != EOF) {
+        i = i + 1
+        if (i >= lb & i <= ub) {
+            fput(fh_out, line)
+        }
+    }
+}
 end

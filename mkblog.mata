@@ -31,6 +31,7 @@ class mkblog {
 	void                              endsec()
 	void                              beginart()
 	void                              endart()
+    void                              truncfile()
 }
 
 struct mbsettings {
@@ -41,7 +42,9 @@ struct mbsettings {
 	string                  scalar    olddir
 	string                  scalar    destdir
 	string                  scalar    pagetitle
-    string                  scalar    tempfile
+    string                  scalar    tempdo
+    string                  scalar    templog
+    string                  scalar    temphtml
     string                  scalar    tempname
 }
 
