@@ -128,7 +128,7 @@ void mkblog::beginsec(string scalar title, sourcerow)
 	state.sec = state.sec + 1
 	secid = "sec"+strofreal(state.sec)
 	
-	towrite = `"<button onclick="myFunction('"' + secid + `"')" "'
+	towrite = `"<button onclick="myAccordion('"' + secid + `"')" "'
 	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray">"'
 	fput(fh_main, towrite)
 	towrite = `"<H4>&#x25BC; "' + title + `"</H4>"' 
@@ -197,7 +197,7 @@ void mkblog::beginart(string scalar title, real scalar sourcerow)
     state.ex  = 0
 	artid = "art"+strofreal(state.art)
 	
-	towrite = `"<button onclick="myFunction('"' + artid + `"')" "'
+	towrite = `"<button onclick="myAccordion('"' + artid + `"')" "'
 	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border-0">"'
 	fput(fh_main, towrite)
 	towrite = `"<H5>&#x25BC; "' + title + `"</H5>"' 
@@ -262,7 +262,7 @@ void mkblog::write_footer()
 	fput(fh_main, "</div>") //ends row
 	
 	fput(fh_main, `"<script>"')
-	fput(fh_main, `"function myFunction(id) {"')
+	fput(fh_main, `"function myAccordion(id) {"')
 	fput(fh_main, `"  var x = document.getElementById(id);"')
 	fput(fh_main, `"  if (x.className.indexOf("w3-show") == -1) {"')
 	fput(fh_main, `"    x.className += " w3-show";"')
@@ -395,7 +395,7 @@ void mkblog::log2html()
         if (i==nlines-2 & line == "<p>") continue
         if (i==nlines-1) continue
         
-        line = subinstr(line, "<p>", "<br><br>")
+        line = subinstr(line, "<p>", "<br>")
 		
         c = strpos(line,"<b>. ")
 		line = subinstr(line, "<b>. ", "<span class=input>. ", 1)

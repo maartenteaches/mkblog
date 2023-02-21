@@ -28,11 +28,11 @@ div.w3-code {
         <div class="w3-col w3-container m1 "></div>
         <div class="w3-col m10 ">
 
-<button onclick="myFunction('sec1')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray">
+<button onclick="myAccordion('sec1')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray">
 <H4>&#x25BC;  Cross-tabulations</H4>
 </button>
 <div id="sec1" class="w3-hide">
-<button onclick="myFunction('art1')" class="w3-container w3-block w3-white w3-left-align w3-border-0">
+<button onclick="myAccordion('art1')" class="w3-container w3-block w3-white w3-left-align w3-border-0">
 <H5>&#x25BC;  Threeway table </H5>
 </button>
 <div id="art1" class="w3-hide">
@@ -48,27 +48,27 @@ and prepare it:</p>
 <pre>
 <span class=input>. sysuse nlsw88, clear</span>
 (NLSW, 1988 extract)
-<br><br>
+<br>
 <span class=input>. </span>
 <span class=input>. gen byte marst = !never_married + married if !missing(never_married)</span>
-<br><br>
+<br>
 <span class=input>. label variable marst "marital status"</span>
-<br><br>
+<br>
 <span class=input>. label define marst 0 "never married"    ///</span>
 <span class=input>&gt;                    1 "widowed/divorced" ///</span>
 <span class=input>&gt;                    2 "married"</span>
-<br><br>
+<br>
 <span class=input>. label value marst marst</span>
-<br><br>
+<br>
 <span class=input>. </span>
 <span class=input>. gen byte urban = c_city + smsa</span>
-<br><br>
+<br>
 <span class=input>. label define urban 2 "central city" ///</span>
 <span class=input>&gt;                    1 "suburban"     ///</span>
 <span class=input>&gt;                    0 "rural"</span>
-<br><br>
+<br>
 <span class=input>. label value urban urban</span>
-<br><br>
+<br>
 <span class=input>. label variable urban "urbanicity"</span>
 </pre>
 </code> </div>
@@ -84,7 +84,7 @@ regardless of urban: the panel labeled Total, and I don't want it.</p>
 <div class="w3-code notranslate w3-border-blue-gray"><code>
 <pre>
 <span class=input>. table (urban marst) (collgrad), stat(percent, across(marst))</span>
-<br><br>
+<br>
 ------------------------------------------------------------------
                        |              College graduate            
                        |  Not college grad   College grad    Total
@@ -135,7 +135,7 @@ bit finicky. We want:</p>
 <pre>
 <span class=input>. table (urban marst) (collgrad), stat(percent, across(marst)) ///</span>
 <span class=input>&gt;    total(urban urban#marst urban#collgrad)</span>
-<br><br>
+<br>
 ------------------------------------------------------------------
                        |              College graduate            
                        |  Not college grad   College grad    Total
@@ -166,7 +166,7 @@ urbanicity             |
 </div>
 </div>
 
-<button onclick="myFunction('sec2')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray">
+<button onclick="myAccordion('sec2')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray">
 <H4>&#x25BC;  Estimation commands</H4>
 </button>
 <div id="sec2" class="w3-hide">
@@ -175,7 +175,7 @@ urbanicity             |
 </div>
 </div>
 <script>
-function myFunction(id) {
+function myAccordion(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
