@@ -13,7 +13,7 @@ div.w3-code {
     overflow: auto;
     margin: 0px auto 0px auto;
 }
-
+   
 </style>
 </head>
 <body>
@@ -23,7 +23,7 @@ div.w3-code {
                 <h2> Examples of Stata's new <b>table</b> command</h2>
         </div>
 </div>
-
+ 
 <div class="w3-row">
         <div class="w3-col w3-container m1 "></div>
         <div class="w3-col m10 ">
@@ -42,6 +42,7 @@ div.w3-code {
 is a complication with the totals. To illustrate lets open some example data,
 and prepare it:</p>
 </div>
+
 <div  class="w3-row"> <div class="w3-col w3-container m1"></div> <div class="w3-col m10"> 
 <div class="w3-code notranslate w3-border-blue-gray"><code>
 <pre>
@@ -74,40 +75,41 @@ and prepare it:</p>
 <a href="art1ex1.do" class = "w3-button w3-blue-gray w3-right">do-file</a></div></div>
 
 <div class="w3-container">
-<p>We can create our three-way cross-tabulation with column percentages, but it
-adds an extra "panel" looking at the association between marst and collgrad
+<p>We can create our three-way cross-tabulation with column percentages, but it 
+adds an extra "panel" looking at the association between marst and collgrad 
 regardless of urban: the panel labeled Total, and I don't want it.</p>
 </div>
 
+<div  class="w3-row"> <div class="w3-col w3-container m1"></div> <div class="w3-col m10"> 
 <div class="w3-code notranslate w3-border-blue-gray"><code>
 <pre>
 <span class=input>. table (urban marst) (collgrad), stat(percent, across(marst))</span>
 <br><br>
 ------------------------------------------------------------------
-                       |              College graduate
+                       |              College graduate            
                        |  Not college grad   College grad    Total
 -----------------------+------------------------------------------
-urbanicity             |
-  rural                |
-    marital status     |
+urbanicity             |                                          
+  rural                |                                          
+    marital status     |                                          
       never married    |              <span class=result>6.00</span>          <span class=result>13.04</span>     <span class=result>7.22</span>
       widowed/divorced |             <span class=result>25.64</span>          <span class=result>16.52</span>    <span class=result>24.06</span>
       married          |             <span class=result>68.36</span>          <span class=result>70.43</span>    <span class=result>68.72</span>
       Total            |            <span class=result>100.00</span>         <span class=result>100.00</span>   <span class=result>100.00</span>
-  suburban             |
-    marital status     |
+  suburban             |                                          
+    marital status     |                                          
       never married    |              <span class=result>6.78</span>          <span class=result>11.16</span>     <span class=result>7.88</span>
       widowed/divorced |             <span class=result>24.10</span>          <span class=result>17.60</span>    <span class=result>22.46</span>
       married          |             <span class=result>69.12</span>          <span class=result>71.24</span>    <span class=result>69.65</span>
       Total            |            <span class=result>100.00</span>         <span class=result>100.00</span>   <span class=result>100.00</span>
-  central city         |
-    marital status     |
+  central city         |                                          
+    marital status     |                                          
       never married    |             <span class=result>15.50</span>          <span class=result>21.74</span>    <span class=result>17.25</span>
       widowed/divorced |             <span class=result>32.91</span>          <span class=result>25.54</span>    <span class=result>30.84</span>
       married          |             <span class=result>51.59</span>          <span class=result>52.72</span>    <span class=result>51.91</span>
       Total            |            <span class=result>100.00</span>         <span class=result>100.00</span>   <span class=result>100.00</span>
-  Total                |
-    marital status     |
+  Total                |                                          
+    marital status     |                                          
       never married    |              <span class=result>8.93</span>          <span class=result>15.23</span>    <span class=result>10.42</span>
       widowed/divorced |             <span class=result>27.01</span>          <span class=result>20.11</span>    <span class=result>25.38</span>
       married          |             <span class=result>64.06</span>          <span class=result>64.66</span>    <span class=result>64.20</span>
@@ -115,43 +117,44 @@ urbanicity             |
 ------------------------------------------------------------------
 </pre>
 </code> </div>
-<a href="art1ex2.do" class = "w3-button w3-blue-gray w3-right">do-file</a>
+<a href="art1ex2.do" class = "w3-button w3-blue-gray w3-right">do-file</a></div></div>
 
 <div class="w3-container">
 <p>We can use the <b>total()</b> option to specify which totals we want, but it is a
 bit finicky. We want:</p>
 
 <ul>
-<li> the urban-specific totals for marst, i.e. urban#marst.</li>
+<li> the urban-specific totals for marst, i.e. urban#marst.</li> 
 <li> the urban-specific totals for collgrad, i.e. urban#collgrad</li>
 <li> the urban-spedific grand totals i.e. urban</li>
 </ul>
 </div>
 
+<div  class="w3-row"> <div class="w3-col w3-container m1"></div> <div class="w3-col m10"> 
 <div class="w3-code notranslate w3-border-blue-gray"><code>
 <pre>
 <span class=input>. table (urban marst) (collgrad), stat(percent, across(marst)) ///</span>
 <span class=input>&gt;    total(urban urban#marst urban#collgrad)</span>
 <br><br>
 ------------------------------------------------------------------
-                       |              College graduate
+                       |              College graduate            
                        |  Not college grad   College grad    Total
 -----------------------+------------------------------------------
-urbanicity             |
-  rural                |
-    marital status     |
+urbanicity             |                                          
+  rural                |                                          
+    marital status     |                                          
       never married    |              <span class=result>6.00</span>          <span class=result>13.04</span>     <span class=result>7.22</span>
       widowed/divorced |             <span class=result>25.64</span>          <span class=result>16.52</span>    <span class=result>24.06</span>
       married          |             <span class=result>68.36</span>          <span class=result>70.43</span>    <span class=result>68.72</span>
       Total            |            <span class=result>100.00</span>         <span class=result>100.00</span>   <span class=result>100.00</span>
-  suburban             |
-    marital status     |
+  suburban             |                                          
+    marital status     |                                          
       never married    |              <span class=result>6.78</span>          <span class=result>11.16</span>     <span class=result>7.88</span>
       widowed/divorced |             <span class=result>24.10</span>          <span class=result>17.60</span>    <span class=result>22.46</span>
       married          |             <span class=result>69.12</span>          <span class=result>71.24</span>    <span class=result>69.65</span>
       Total            |            <span class=result>100.00</span>         <span class=result>100.00</span>   <span class=result>100.00</span>
-  central city         |
-    marital status     |
+  central city         |                                          
+    marital status     |                                          
       never married    |             <span class=result>15.50</span>          <span class=result>21.74</span>    <span class=result>17.25</span>
       widowed/divorced |             <span class=result>32.91</span>          <span class=result>25.54</span>    <span class=result>30.84</span>
       married          |             <span class=result>51.59</span>          <span class=result>52.72</span>    <span class=result>51.91</span>
@@ -159,7 +162,7 @@ urbanicity             |
 ------------------------------------------------------------------
 </pre>
 </code> </div>
-<a href="art1ex3.do" class = "w3-button w3-blue-gray w3-right">do-file</a>
+<a href="art1ex3.do" class = "w3-button w3-blue-gray w3-right">do-file</a></div></div>
 </div>
 </div>
 
