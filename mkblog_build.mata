@@ -1,4 +1,4 @@
-cd "c:\Mijn documenten\projecten\stata\mkblog\" 
+cd "d:\Mijn documenten\projecten\stata\mkblog\" 
 clear all
 version 17
 

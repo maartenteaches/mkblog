@@ -341,7 +341,7 @@ void mkblog::open_ex(real scalar sourcerow)
     state.exopen = 1
     state.exname = "art" + strofreal(state.art) + "ex" + strofreal(state.ex) + ".do"
     state.exline = 1
-    
+
     state.fh_ex = mb_fopen(settings.tempdo, "w")
     fput(state.fh_ex, "log using "+ settings.templog  + ", smcl name("+ settings.tempname +") nomsg replace")
 }
@@ -382,7 +382,7 @@ void mkblog::log2html()
 
     EOF = J(0,0, "")
     
-    cmd = "log html " + settings.templog + " " + settings.temphtml + "replace yebf whbf "
+    cmd = `"log html ""' + settings.templog + `"" ""' + settings.temphtml + `"", replace yebf whbf "'
     stata(cmd, 1)
     unlink(settings.templog)
     

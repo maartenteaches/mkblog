@@ -1,9 +1,9 @@
 //art Threeway table 
 
 /*txt
-The goal is to create a three-way cross-tabulation using <b>table</b>, and there
+<p>The goal is to create a three-way cross-tabulation using <b>table</b>, and there
 is a complication with the totals. To illustrate lets open some example data,
-and prepare it:
+and prepare it:</p>
 txt*/
 
 //ex
@@ -25,18 +25,18 @@ label variable urban "urbanicity"
 //endex
 
 /*txt
-We can create our three-way cross-tabulation with column percentages, but it 
+<p>We can create our three-way cross-tabulation with column percentages, but it 
 adds an extra "panel" looking at the association between marst and collgrad 
-regardless of urban: the panel labeled Total, and I don't want it.
+regardless of urban: the panel labeled Total, and I don't want it.</p>
 txt*/
 
 //ex
 table (urban marst) (collgrad), stat(percent, across(marst))
 //endex
 
-/*
-We can use the <b>total()</b> option to specify which totals we want, but it is a
-bit finicky. We want:
+/*txt
+<p>We can use the <b>total()</b> option to specify which totals we want, but it is a
+bit finicky. We want:</p>
 
 <ul>
 <li> the urban-specific totals for marst, i.e. urban#marst.</li> 

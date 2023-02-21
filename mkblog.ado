@@ -30,6 +30,9 @@ program define mkblog_main, rclass
 	version 17
 	syntax using/, blog(string) [replace dir(string)]
 	
+    tempname name
+    tempfile do log html
+    
 	mata: `blog'.run()
 	
 	Closingmsg, blog(`blog')
@@ -39,8 +42,8 @@ program define Closingmsg
 	version 17
 	syntax, blog(string)
 	
-	mata st_local("dir", `blog'.settings.other.destdir)
-	mata st_local("stub", `blog'.settings.other.stub)
+	mata st_local("dir", `blog'.settings.destdir)
+	mata st_local("stub", `blog'.settings.stub)
 	
 	di as txt "{p}to view the blog:{p_end}"
     di as txt "{p}first change the directory to where the blog is stored:{p_end}"
