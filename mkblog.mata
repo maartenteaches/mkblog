@@ -67,6 +67,8 @@ struct mbsettings {
     string                  scalar    tempname
     real                    scalar    tab
     string                  scalar    title
+    string                  scalar    keywords
+    string                  scalar    author
 }
 
 struct mbstate {

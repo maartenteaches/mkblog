@@ -163,6 +163,16 @@ real scalar mkblog::_read_file(string scalar filename, real scalar lnr, real row
             source_version = source_version[|1,1 \ rows(source_version)-1,3|]
             settings.title = tokenrest(t)
         }
+        else if (part == "//keywords") {
+            source = source[|1,1 \ rows(source)-1,3|]
+            source_version = source_version[|1,1 \ rows(source_version)-1,3|]
+            settings.keywords = tokenrest(t)
+        }
+        else if (part == "//author") {
+            source = source[|1,1 \ rows(source)-1,3|]
+            source_version = source_version[|1,1 \ rows(source_version)-1,3|]
+            settings.author = tokenrest(t)
+        }
         else {
             source[lnr,1] = line
             source[lnr,2] = filename
