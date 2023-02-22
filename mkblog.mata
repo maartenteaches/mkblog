@@ -49,6 +49,7 @@ class mkblog {
     void                              closetxt()
     void                              write_blog()
     void                              fill_blog()
+    void                              add_do()
 }
 
 struct mbsettings {

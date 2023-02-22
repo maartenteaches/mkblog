@@ -274,14 +274,14 @@ void mkblog::write_footer()
 	fput(fh_main, `"    x.previousElementSibling.className.replace("w3-blue-gray", "w3-white");"')
 	fput(fh_main, `"  }"')
 	fput(fh_main, `"}"')
-    fput(fh_main, `"function mydropdown(id) {"')
-    fput(fh_main, `"var x = document.getElementById(id);"')
-    fput(fh_main, `"if (x.className.indexOf("w3-show") == -1) {"')
-    fput(fh_main, `"    x.className += " w3-show";"')
-    fput(fh_main, `"} else { "')
-    fput(fh_main, `"    x.className = x.className.replace(" w3-show", "");"')
-    fput(fh_main, `"}"')
-    fput(fh_main, `"}"')    
+	fput(fh_main, `"function myAccordiondo(id) {"')
+	fput(fh_main, `"  var x = document.getElementById(id);"')
+	fput(fh_main, `"  if (x.className.indexOf("w3-show") == -1) {"')
+	fput(fh_main, `"    x.className += " w3-show";"')
+	fput(fh_main, `"  } else {"')
+	fput(fh_main, `"    x.className = x.className.replace(" w3-show", "");"')
+	fput(fh_main, `"  }"')
+	fput(fh_main, `"}"')  
 	fput(fh_main, `"</script>"')
 	fput(fh_main, "</body>")
 	fput(fh_main, "</html>")
@@ -341,7 +341,7 @@ void mkblog::open_ex(real scalar sourcerow)
     }
     state.ex = state.ex + 1
     state.exopen = 1
-    state.exname = "art" + strofreal(state.art) + "ex" + strofreal(state.ex) + ".do"
+    state.exname = "art" + strofreal(state.art) + "ex" + strofreal(state.ex) 
     state.exline = 1
 
     state.fh_ex = mb_fopen(settings.tempdo, "w")
@@ -368,11 +368,25 @@ void mkblog::close_ex(real scalar sourcerow)
     cmd = "do " +  settings.tempdo
     stata(cmd)
     
-    truncfile(settings.tempdo, state.exname, 2, state.exline)
+    log2html()
+    
+    add_do()
+	state.exopen = 0
+}
+
+void mkblog::add_do()
+{
+    truncfile(settings.tempdo, settings.temphtml, 2, state.exline)
     unlink(settings.tempdo)
     
-    log2html()
-	state.exopen = 0
+    fput(fh_main, `"<button onclick="myAccordiondo('"' + state.exname + `"')" class = "w3-button w3-blue-gray w3-right">do-file</button>"')
+    fput(fh_main, `"<div id =""' + state.exname + `"" class="w3-hide w3-container w3-card-4" style="overflow: auto;">"')
+    fput(fh_main, "<pre>")
+    copyfile(settings.temphtml)
+    unlink(settings.temphtml)
+    fput(fh_main, "</pre>")
+    fput(fh_main, "</div>") // dofile
+    fput(fh_main, "</div></div>") //row and column
 }
 
 
@@ -424,10 +438,12 @@ void mkblog::log2html()
     }
     
     fput(fh_clog, "</code> </div>")
-    fput(fh_clog, `"<a href=""' + state.exname + `"" class = "w3-button w3-blue-gray w3-right">do-file</a></div></div>"')
+    
     mb_fclose(fh_clog)
     mb_fclose(fh_rlog)
     copyfile(settings.templog)
+    unlink(settings.templog)
+    unlink(settings.temphtml)
 }
 
 void mkblog::opentxt(real scalar sourcerow)
