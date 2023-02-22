@@ -34,6 +34,7 @@ class mkblog {
 	
 	//_write.mata
 	void                              write_header()
+    string                  scalar    striptags()
 	void                              write_footer()
 	void                              write_pagetitle()
 	void                              beginsec()

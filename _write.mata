@@ -53,6 +53,20 @@ void mkblog::fill_blog()
     }
 }
 
+string scalar mkblog::striptags(string scalar tostrip) 
+{
+    real scalar lb, ub
+    
+    lb = ustrpos(tostrip, "<")
+    while(lb > 0){
+        ub = ustrpos(tostrip, ">")
+        tostrip = usubstr(tostrip,1,lb-1) + usubstr(tostrip, ub+1, .)
+        lb = ustrpos(tostrip, "<")
+
+    }
+    return(tostrip)
+}
+
 void mkblog::write_header()
 {
 	string scalar destfile
@@ -62,6 +76,7 @@ void mkblog::write_header()
 	
 	fput(fh_main, `"<html>"')
 	fput(fh_main, `"<head>"')
+    fput(fh_main, `"<title>"' + striptags(settings.title) + `"</title>"')
 	fput(fh_main, `"<meta http-equiv="Content-type" content="text/html; charset=iso-8859-1">"')
 	fput(fh_main, `"<meta name="viewport" content="width=device-width, initial-scale=1">"')
 	fput(fh_main, `"<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">"')

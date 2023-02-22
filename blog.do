@@ -1,9 +1,13 @@
 //title Examples of Stata's new <b>table</b> command
 
-//sec Cross-tabulations
+//sec table
 //include threeway_table_totals.do
 //endsec
 
-//sec Estimation commands
+//sec etable
+
+//endsec
+
+//sec collect
 
 //endsec
