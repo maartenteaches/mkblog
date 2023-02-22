@@ -55,16 +55,19 @@ void mkblog::fill_blog()
 
 string scalar mkblog::striptags(string scalar tostrip) 
 {
-    real scalar lb, ub
+    real scalar lb, ub, i
+    string scalar result
     
-    lb = ustrpos(tostrip, "<")
-    while(lb > 0){
-        ub = ustrpos(tostrip, ">")
-        tostrip = usubstr(tostrip,1,lb-1) + usubstr(tostrip, ub+1, .)
-        lb = ustrpos(tostrip, "<")
+    result = tostrip
+    lb = ustrpos(result, "<")
+    i = 0
+    while(lb > 0 & ++i < 50){
+        ub = ustrpos(result, ">")
+        result = usubstr(result,1,lb-1) + usubstr(result, ub+1, .)
+        lb = ustrpos(result, "<")
 
     }
-    return(tostrip)
+    return(result)
 }
 
 void mkblog::write_header()
