@@ -278,6 +278,7 @@ void mkblog::write_footer()
 		printf(errmsg)
 		exit(198)
     }
+    fput(fh_main, `"<div class="w3-container w3-blue-gray"> <p></p> </div>"')
 	fput(fh_main, "</div>") //ends column
 	fput(fh_main, "</div>") //ends row
 	
@@ -437,7 +438,7 @@ void mkblog::log2html()
         if (i==nlines-2 & line == "<p>") continue
         if (i==nlines-1) continue
         
-        line = subinstr(line, "<p>", "<br>")
+        line = subinstr(line, "<p>", "")
 		
         c = strpos(line,"<b>. ")
 		line = subinstr(line, "<b>. ", "<span class=input>. ", 1)

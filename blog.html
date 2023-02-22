@@ -51,27 +51,27 @@ and prepare it:</p>
 <pre>
 <span class=input>. sysuse nlsw88, clear</span>
 (NLSW, 1988 extract)
-<br>
+
 <span class=input>. </span>
 <span class=input>. gen byte marst = !never_married + married if !missing(never_married)</span>
-<br>
+
 <span class=input>. label variable marst "marital status"</span>
-<br>
+
 <span class=input>. label define marst 0 "never married"    ///</span>
 <span class=input>&gt;                    1 "widowed/divorced" ///</span>
 <span class=input>&gt;                    2 "married"</span>
-<br>
+
 <span class=input>. label value marst marst</span>
-<br>
+
 <span class=input>. </span>
 <span class=input>. gen byte urban = c_city + smsa</span>
-<br>
+
 <span class=input>. label define urban 2 "central city" ///</span>
 <span class=input>&gt;                    1 "suburban"     ///</span>
 <span class=input>&gt;                    0 "rural"</span>
-<br>
+
 <span class=input>. label value urban urban</span>
-<br>
+
 <span class=input>. label variable urban "urbanicity"</span>
 </pre>
 </code> </div>
@@ -107,7 +107,7 @@ regardless of urban: the panel labeled Total, and I don't want it.</p>
 <div class="w3-code notranslate w3-border-blue-gray"><code>
 <pre>
 <span class=input>. table (urban marst) (collgrad), stat(percent, across(marst))</span>
-<br>
+
 ------------------------------------------------------------------
                        |              College graduate            
                        |  Not college grad   College grad    Total
@@ -164,7 +164,7 @@ bit finicky. We want:</p>
 <pre>
 <span class=input>. table (urban marst) (collgrad), stat(percent, across(marst)) ///</span>
 <span class=input>&gt;    total(urban urban#marst urban#collgrad)</span>
-<br>
+
 ------------------------------------------------------------------
                        |              College graduate            
                        |  Not college grad   College grad    Total
@@ -215,6 +215,7 @@ table (urban marst) (collgrad), stat(percent, across(marst)) ///
 <div id="sec3" class="w3-hide">
 
 </div>
+<div class="w3-container w3-blue-gray"> <p></p> </div>
 </div>
 </div>
 <script>
