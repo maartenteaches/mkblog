@@ -1,0 +1,7 @@
+v 0.1.0
+d 'MKBLOG': make a blog
+d 
+d Distribution-Date:   20230222
+d 
+F lmkblog.mlib
+F mkblog.ado
