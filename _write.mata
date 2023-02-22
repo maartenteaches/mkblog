@@ -146,7 +146,7 @@ void mkblog::beginsec(string scalar title, sourcerow)
 	secid = "sec"+strofreal(state.sec)
 	
 	towrite = `"<button onclick="myAccordion('"' + secid + `"')" "'
-	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray">"'
+	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray w3-hover-light-gray">"'
 	fput(fh_main, towrite)
 	towrite = `"<H4>&#x25BC; "' + title + `"</H4>"' 
     fput(fh_main, towrite)    
@@ -215,7 +215,7 @@ void mkblog::beginart(string scalar title, real scalar sourcerow)
 	artid = "art"+strofreal(state.art)
 	
 	towrite = `"<button onclick="myAccordion('"' + artid + `"')" "'
-	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border-0">"'
+	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border-0  w3-hover-light-gray">"'
 	fput(fh_main, towrite)
 	towrite = `"<H5>&#x25BC; "' + title + `"</H5>"' 
     fput(fh_main, towrite)    
