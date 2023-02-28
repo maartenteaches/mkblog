@@ -148,7 +148,7 @@ void mkblog::beginsec(string scalar title, sourcerow)
 	state.sec = state.sec + 1
 	secid = "sec"+strofreal(state.sec)
 	
-	towrite = `"<button onclick="myAccordion('"' + secid + `"')" "'
+	towrite = `"<button onclick="myAccordion('"' + secid + `"', 'section')" "'
 	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray w3-hover-light-gray">"'
 	fput(fh_main, towrite)
 	towrite = `"<H4>&#x25BC; "' + title + `"</H4>"' 
@@ -217,7 +217,7 @@ void mkblog::beginart(string scalar title, real scalar sourcerow)
     state.ex  = 0
 	artid = "art"+strofreal(state.art)
 	
-	towrite = `"<button onclick="myAccordion('"' + artid + `"')" "'
+	towrite = `"<button onclick="myAccordion('"' + artid + `"', 'article')" "'
 	towrite = towrite + `"class="w3-container w3-block w3-white w3-left-align w3-border-0  w3-hover-light-gray">"'
 	fput(fh_main, towrite)
 	towrite = `"<H5>&#x25BC; "' + title + `"</H5>"' 
@@ -283,26 +283,32 @@ void mkblog::write_footer()
 	fput(fh_main, "</div>") //ends row
 	
 	fput(fh_main, `"<script>"')
-	fput(fh_main, `"function myAccordion(id) {"')
+	fput(fh_main, `"function myAccordion(id, what) {"')
 	fput(fh_main, `"  var x = document.getElementById(id);"')
 	fput(fh_main, `"  if (x.className.indexOf("w3-show") == -1) {"')
 	fput(fh_main, `"    x.className += " w3-show";"')
-	fput(fh_main, `"    x.previousElementSibling.className ="')
-	fput(fh_main, `"    x.previousElementSibling.className.replace("w3-white", "w3-blue-gray");"')
+	fput(fh_main, `"    if (what == 'section'){"')
+	fput(fh_main, `"      x.previousElementSibling.className ="')
+	fput(fh_main, `"      x.previousElementSibling.className.replace("w3-white", "w3-blue-gray");"')
+	fput(fh_main, `"    } else if (what == 'article') {"')
+	fput(fh_main, `"      x.previousElementSibling.className ="')
+	fput(fh_main, `"      x.previousElementSibling.className.replace("w3-white", "w3-light-gray");"')
+	fput(fh_main, `"      x.previousElementSibling.className ="')
+	fput(fh_main, `"      x.previousElementSibling.className.replace("w3-hover-light-gray", "w3-hover-gray");"')
+	fput(fh_main, `"    }"')
 	fput(fh_main, `"  } else {"')
 	fput(fh_main, `"    x.className = x.className.replace(" w3-show", "");"')
-	fput(fh_main, `"    x.previousElementSibling.className ="')
-	fput(fh_main, `"    x.previousElementSibling.className.replace("w3-blue-gray", "w3-white");"')
+	fput(fh_main, `"    if (what == 'section'){"')
+	fput(fh_main, `"      x.previousElementSibling.className ="')
+	fput(fh_main, `"      x.previousElementSibling.className.replace("w3-blue-gray", "w3-white");"')
+	fput(fh_main, `"    } else if (what == 'article') {"')
+	fput(fh_main, `"      x.previousElementSibling.className ="')
+	fput(fh_main, `"      x.previousElementSibling.className.replace("w3-light-gray", "w3-white");"')
+	fput(fh_main, `"      x.previousElementSibling.className ="')
+	fput(fh_main, `"      x.previousElementSibling.className.replace("w3-hover-gray", "w3-hover-light-gray");"')
+	fput(fh_main, `"    }"')	
 	fput(fh_main, `"  }"')
 	fput(fh_main, `"}"')
-	fput(fh_main, `"function myAccordiondo(id) {"')
-	fput(fh_main, `"  var x = document.getElementById(id);"')
-	fput(fh_main, `"  if (x.className.indexOf("w3-show") == -1) {"')
-	fput(fh_main, `"    x.className += " w3-show";"')
-	fput(fh_main, `"  } else {"')
-	fput(fh_main, `"    x.className = x.className.replace(" w3-show", "");"')
-	fput(fh_main, `"  }"')
-	fput(fh_main, `"}"')  
 	fput(fh_main, `"</script>"')
 	fput(fh_main, "</body>")
 	fput(fh_main, "</html>")
@@ -400,7 +406,7 @@ void mkblog::add_do()
     truncfile(settings.tempdo, settings.temphtml, 2, state.exline)
     unlink(settings.tempdo)
     
-    fput(fh_main, `"<button onclick="myAccordiondo('"' + state.exname + `"')" class = "w3-button w3-blue-gray w3-right">do-file</button>"')
+    fput(fh_main, `"<button onclick="myAccordion('"' + state.exname + `"', 'do')" class = "w3-button w3-blue-gray w3-right">do-file</button>"')
     fput(fh_main, `"<div id =""' + state.exname + `"" class="w3-hide w3-container w3-card-4" style="overflow: auto;">"')
     fput(fh_main, "<pre>")
     copyfile(settings.temphtml)

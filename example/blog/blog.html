@@ -31,11 +31,11 @@ div.w3-code {
         <div class="w3-col w3-container m1 "></div>
         <div class="w3-col m10 ">
 
-<button onclick="myAccordion('sec1')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray w3-hover-light-gray">
+<button onclick="myAccordion('sec1', 'section')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray w3-hover-light-gray">
 <H4>&#x25BC;  table</H4>
 </button>
 <div id="sec1" class="w3-hide">
-<button onclick="myAccordion('art1')" class="w3-container w3-block w3-white w3-left-align w3-border-0  w3-hover-light-gray">
+<button onclick="myAccordion('art1', 'article')" class="w3-container w3-block w3-white w3-left-align w3-border-0  w3-hover-light-gray">
 <H5>&#x25BC;  Threeway table </H5>
 </button>
 <div id="art1" class="w3-hide">
@@ -75,7 +75,7 @@ and prepare it:</p>
 <span class=input>. label variable urban "urbanicity"</span>
 </pre>
 </code> </div>
-<button onclick="myAccordiondo('art1ex1')" class = "w3-button w3-blue-gray w3-right">do-file</button>
+<button onclick="myAccordion('art1ex1', 'do')" class = "w3-button w3-blue-gray w3-right">do-file</button>
 <div id ="art1ex1" class="w3-hide w3-container w3-card-4" style="overflow: auto;">
 <pre>
 sysuse nlsw88, clear
@@ -140,7 +140,7 @@ urbanicity             |
 ------------------------------------------------------------------
 </pre>
 </code> </div>
-<button onclick="myAccordiondo('art1ex2')" class = "w3-button w3-blue-gray w3-right">do-file</button>
+<button onclick="myAccordion('art1ex2', 'do')" class = "w3-button w3-blue-gray w3-right">do-file</button>
 <div id ="art1ex2" class="w3-hide w3-container w3-card-4" style="overflow: auto;">
 <pre>
 table (urban marst) (collgrad), stat(percent, across(marst))
@@ -191,7 +191,7 @@ urbanicity             |
 ------------------------------------------------------------------
 </pre>
 </code> </div>
-<button onclick="myAccordiondo('art1ex3')" class = "w3-button w3-blue-gray w3-right">do-file</button>
+<button onclick="myAccordion('art1ex3', 'do')" class = "w3-button w3-blue-gray w3-right">do-file</button>
 <div id ="art1ex3" class="w3-hide w3-container w3-card-4" style="overflow: auto;">
 <pre>
 table (urban marst) (collgrad), stat(percent, across(marst)) ///
@@ -202,14 +202,14 @@ table (urban marst) (collgrad), stat(percent, across(marst)) ///
 </div>
 </div>
 
-<button onclick="myAccordion('sec2')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray w3-hover-light-gray">
+<button onclick="myAccordion('sec2', 'section')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray w3-hover-light-gray">
 <H4>&#x25BC;  etable</H4>
 </button>
 <div id="sec2" class="w3-hide">
 
 </div>
 
-<button onclick="myAccordion('sec3')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray w3-hover-light-gray">
+<button onclick="myAccordion('sec3', 'section')" class="w3-container w3-block w3-white w3-left-align w3-border w3-border-blue-gray w3-hover-light-gray">
 <H4>&#x25BC;  collect</H4>
 </button>
 <div id="sec3" class="w3-hide">
@@ -219,24 +219,30 @@ table (urban marst) (collgrad), stat(percent, across(marst)) ///
 </div>
 </div>
 <script>
-function myAccordion(id) {
+function myAccordion(id, what) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
-    x.previousElementSibling.className =
-    x.previousElementSibling.className.replace("w3-white", "w3-blue-gray");
+    if (what == 'section'){
+      x.previousElementSibling.className =
+      x.previousElementSibling.className.replace("w3-white", "w3-blue-gray");
+    } else if (what == 'article') {
+      x.previousElementSibling.className =
+      x.previousElementSibling.className.replace("w3-white", "w3-light-gray");
+      x.previousElementSibling.className =
+      x.previousElementSibling.className.replace("w3-hover-light-gray", "w3-hover-gray");
+    }
   } else {
     x.className = x.className.replace(" w3-show", "");
-    x.previousElementSibling.className =
-    x.previousElementSibling.className.replace("w3-blue-gray", "w3-white");
-  }
-}
-function myAccordiondo(id) {
-  var x = document.getElementById(id);
-  if (x.className.indexOf("w3-show") == -1) {
-    x.className += " w3-show";
-  } else {
-    x.className = x.className.replace(" w3-show", "");
+    if (what == 'section'){
+      x.previousElementSibling.className =
+      x.previousElementSibling.className.replace("w3-blue-gray", "w3-white");
+    } else if (what == 'article') {
+      x.previousElementSibling.className =
+      x.previousElementSibling.className.replace("w3-light-gray", "w3-white");
+      x.previousElementSibling.className =
+      x.previousElementSibling.className.replace("w3-hover-gray", "w3-hover-light-gray");
+    }
   }
 }
 </script>
